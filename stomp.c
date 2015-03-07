@@ -215,7 +215,7 @@ int stomp_connect(stomp_t *stomp, const char *host, unsigned short port TSRMLS_D
 	tv.tv_sec = stomp->options.connect_timeout_sec;
 	tv.tv_usec = stomp->options.connect_timeout_usec;
 
-	stomp->fd = php_network_connect_socket_to_host(stomp->host, stomp->port, SOCK_STREAM, 0, &tv, NULL, NULL, NULL, 0 TSRMLS_CC);
+	stomp->fd = php_network_connect_socket_to_host(stomp->host, stomp->port, SOCK_STREAM, 0, &tv, NULL, NULL, NULL, 0 TSRMLS_CC, STREAM_SOCKOP_NONE);
 	if (stomp->fd == -1) {
 		snprintf(error, sizeof(error), "Unable to connect to %s:%ld", stomp->host, stomp->port);
 		stomp_set_error(stomp, error, errno, "%s", strerror(errno));
