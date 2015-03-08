@@ -44,7 +44,7 @@ static void print_stomp_frame(stomp_frame_t *frame TSRMLS_DC) {
 		zend_ulong pos;
 		zend_hash_internal_pointer_reset(frame->headers);
 
-		while (zend_hash_get_current_key(frame->headers, &key, &pos, 0) == HASH_KEY_IS_STRING) {
+		while (zend_hash_get_current_key(frame->headers, &key, &pos) == HASH_KEY_IS_STRING) {
 			char *value = NULL;
 
 			php_printf("%s:", key);
@@ -320,7 +320,7 @@ int stomp_send(stomp_t *stomp, stomp_frame_t *frame TSRMLS_DC)
 		zend_ulong pos;
 		zend_hash_internal_pointer_reset(frame->headers);
 
-		while (zend_hash_get_current_key(frame->headers, &key, &pos, 0) == HASH_KEY_IS_STRING) {
+		while (zend_hash_get_current_key(frame->headers, &key, &pos) == HASH_KEY_IS_STRING) {
 			char *value = NULL;
 
 			smart_string_appends(&buf, key);
