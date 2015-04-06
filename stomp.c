@@ -49,7 +49,7 @@ static void print_stomp_frame(stomp_frame_t *frame TSRMLS_DC) {
 
 			php_printf("%s:", key);
 
-			if (zend_hash_get_current_data(frame->headers, (void **)&value) == SUCCESS) {
+			if (zend_hash_get_current_data(frame->headers) == SUCCESS) {
 				php_printf("%s", value);
 			}
 
@@ -326,7 +326,7 @@ int stomp_send(stomp_t *stomp, stomp_frame_t *frame TSRMLS_DC)
 			smart_string_appends(&buf, key);
 			smart_string_appendc(&buf, ':');
 
-			if (zend_hash_get_current_data(frame->headers, (void **)&value) == SUCCESS) {
+			if (zend_hash_get_current_data(frame->headers) == SUCCESS) {
 				smart_string_appends(&buf, value);
 			}
 
