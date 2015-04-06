@@ -323,7 +323,7 @@ int stomp_send(stomp_t *stomp, stomp_frame_t *frame TSRMLS_DC)
 		while (zend_hash_get_current_key(frame->headers, &key, &pos) == HASH_KEY_IS_STRING) {
 			char *value = NULL;
 
-			smart_string_appends(&buf, key);
+			smart_string_appends(&buf, key->val);
 			smart_string_appendc(&buf, ':');
 
 			if (zend_hash_get_current_data(frame->headers) == SUCCESS) {
