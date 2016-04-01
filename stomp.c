@@ -618,23 +618,20 @@ stomp_frame_t *stomp_read_frame_ex(stomp_t *stomp, int use_stack)
 		if (0 == length) {
 			break;
 		} else {
-			char *p2 = NULL;
-			char *key;
-			char *value;
-
-			p2 = strstr(p,":");
-
+			char *p2 = NULL; /* p2 is a pointer to a char whos value is null */
+			p2 = strstr(p,":"); /* p2 is updated to point to the first : in p */
 			if (p2 == NULL) {
 				efree(p);
 				RETURN_READ_FRAME_FAIL;
 			}
 
 			/* Null terminate the key */
-			*p2=0;
-			key = p;
+			*p2=0; /* The value of p2 is set to 0 but I'm not sure why... */
+			zend_string *key = zend_string_init(p, sizeof(p) - 1, 0);
 
 			/* The rest is the value. */
-			value = p2+1;
+			zval value;
+			ZVAL_PTR(&value, p2+1);
 
 			/* Insert key/value into hash table. */
 			zend_hash_add(f->headers, key, &value);
