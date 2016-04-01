@@ -637,13 +637,14 @@ stomp_frame_t *stomp_read_frame_ex(stomp_t *stomp, int use_stack)
 			value = p2+1;
 
 			/* Insert key/value into hash table. */
-			zend_hash_add(f->headers, key, strlen(key) + 1, value, strlen(value) + 1, NULL);
+			zend_hash_add(f->headers, key, &value);
 			efree(p);
 		}
 	}
 
 	/* Check for the content length */
-	if (zend_hash_find(f->headers, "content-length", sizeof("content-length"), (void **)&length_str) == SUCCESS) {
+	zend_string *needle = zend_string_init("content-length", sizeof("content-length"), 0);
+	if (length_str = zend_hash_find(f->headers, needle) != NULL) {
 		int recv_size = 0;
 		char endbuffer[2];
 
@@ -678,14 +679,16 @@ int stomp_valid_receipt(stomp_t *stomp, stomp_frame_t *frame) {
 	int success = 1;
 	char *receipt = NULL;
 
-	if (zend_hash_find(frame->headers, "receipt", sizeof("receipt"), (void **)&receipt) == SUCCESS) {
+	zend_string *needle1 = zend_string_init("receipt", sizeof("receipt"), 0);
+	if (receipt = zend_hash_find(frame->headers, needle1) != NULL) {
 		success = 0;
 		while (1) {
 			stomp_frame_t *res = stomp_read_frame_ex(stomp, 0);
 			if (res) {
 				if (0 == strncmp("RECEIPT", res->command, sizeof("RECEIPT") - 1)) {
 					char *receipt_id = NULL;
-					if (zend_hash_find(res->headers, "receipt-id", sizeof("receipt-id"), (void **)&receipt_id) == SUCCESS
+					zend_string *needle2 = zend_string_init("receipt-id", sizeof("receipt-id"), 0);
+					if (receipt_id = zend_hash_find(res->headers, needle2) != NULL
 							&& strlen(receipt) == strlen(receipt_id)
 							&& !strcmp(receipt, receipt_id)) {
 						success = 1;
@@ -696,7 +699,8 @@ int stomp_valid_receipt(stomp_t *stomp, stomp_frame_t *frame) {
 					return success;
 				} else if (0 == strncmp("ERROR", res->command, sizeof("ERROR") - 1)) {
 					char *error_msg = NULL;
-					if (zend_hash_find(res->headers, "message", sizeof("message"), (void **)&error_msg) == SUCCESS) {
+					zend_string *needle3 = zend_string_init("message", sizeof("message"), 0);
+					if (error_msg = zend_hash_find(res->headers, needle3 != NULL)) {
 						stomp_set_error(stomp, error_msg, 0, "%s", res->body);
 					}
 					stomp_free_frame(res);
