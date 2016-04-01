@@ -49,9 +49,9 @@
 
 #define FRAME_HEADER_FROM_HASHTABLE(h, p) \
 	HashTable *headers_ht = p; \
-	zval **value = NULL; \
-	char *string_key = NULL; \
-	ulong num_key; \
+	zval *value = NULL; \
+	zend_string string_key = NULL; \
+	zend_ulong num_key; \
 	for (zend_hash_internal_pointer_reset(headers_ht); \
 			zend_hash_get_current_data(headers_ht, (void **)&value) != NULL; \
 			zend_hash_move_forward(headers_ht)) { \
