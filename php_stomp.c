@@ -42,7 +42,8 @@
 	frame.command = cmd; \
 	frame.command_length = l; \
 	ALLOC_HASHTABLE(frame.headers); \
-	zend_hash_init(frame.headers, 0, NULL, NULL, 0);
+	zend_bool persistent = 0;
+	zend_hash_init(frame.headers, 0, NULL, NULL, persistent);
 
 #define INIT_FRAME(frame, cmd) INIT_FRAME_L(frame, cmd, sizeof(cmd)-1)
 
