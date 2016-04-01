@@ -53,7 +53,7 @@
 	char *string_key = NULL; \
 	ulong num_key; \
 	for (zend_hash_internal_pointer_reset(headers_ht); \
-			zend_hash_get_current_data(headers_ht, (void **)&value) == SUCCESS; \
+			zend_hash_get_current_data(headers_ht, (void **)&value) != NULL; \
 			zend_hash_move_forward(headers_ht)) { \
 		if (zend_hash_get_current_key(headers_ht, &string_key, &num_key, 1) != HASH_KEY_IS_STRING) { \
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument or parameter array"); \
