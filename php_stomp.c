@@ -59,7 +59,7 @@
 			php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid argument or parameter array"); \
 			break; \
 		} else { \
-			if (Z_TYPE_PP(value) != IS_STRING) { \
+			if (Z_TYPE_P(value) != IS_STRING) { \
 				SEPARATE_ZVAL(value); \
 				convert_to_string(*value); \
 			} \
