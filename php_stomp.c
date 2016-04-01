@@ -29,7 +29,7 @@
 #include "ext/standard/url.h"
 #include "php_stomp.h"
 
-#include "ext/standard/php_smart_str.h"
+#include "ext/standard/php_smart_string.h"
 
 #define FETCH_STOMP_OBJECT \
 	i_obj = (stomp_object_t *) zend_object_store_get_object(stomp_object TSRMLS_CC); \
